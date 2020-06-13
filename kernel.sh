@@ -14,10 +14,8 @@ elif [[ -e $config_path/rolex_defconfig || $config_path/riva_defconfig ]]; then
     export config_device2=riva_defconfig
 fi
 git clone --depth=1 https://github.com/fadlyas07/anykernel-3
+git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master GF
 git clone --depth=1 https://github.com/fabianonline/telegram.sh telegram
-git clone --depth=1 https://github.com/crdroidmod/android_prebuilts_clang_host_linux-x86_clang-6317467 cclang
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r57 gcc32
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r57 gcc
 mkdir $(pwd)/temp
 export ARCH=arm64
 export TEMP=$(pwd)/temp
@@ -49,13 +47,18 @@ tg_channelcast() {
     )"
 }
 tg_build() {
-PATH=$(pwd)/cclang/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH \
+export LD_LIBRARY_PATH=$(pwd)/GF/bin/../lib:$PATH
+PATH=$(pwd)/GF/bin:$PATH \
 make -j$(nproc) O=out \
                 ARCH=arm64 \
+                AR=llvm-ar \
                 CC=clang \
-                CLANG_TRIPLE=aarch64-linux-gnu- \
-                CROSS_COMPILE=aarch64-linux-android- \
-                CROSS_COMPILE_ARM32=arm-linux-androideabi-
+                CROSS_COMPILE=aarch64-linux-gnu- \
+                CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+                NM=llvm-nm \
+                OBJCOPY=llvm-objcopy \
+                OBJDUMP=llvm-objdump \
+                STRIP=llvm-strip
 }
 build_start=$(date +"%s")
 date1=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
