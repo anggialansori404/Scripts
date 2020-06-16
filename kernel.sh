@@ -31,6 +31,9 @@ case $parse_branch in
                 touch $chat_id
                 unset chat_id
                 export chat_id="784548477"
+                echo -e "Remove clang for GCC"
+                rm -rf GF
+                git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r57 gcc
         ;;
 esac
 export TELEGRAM_ID=$chat_id
@@ -46,20 +49,29 @@ tg_channelcast() {
            done
     )"
 }
-tg_build() {
-export LD_LIBRARY_PATH=$(pwd)/GF/bin/../lib:$PATH
-PATH=$(pwd)/GF/bin:$PATH \
-make -j$(nproc) O=out \
-                ARCH=arm64 \
-                AR=llvm-ar \
-                CC=clang \
-                CROSS_COMPILE=aarch64-linux-gnu- \
-                CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-                NM=llvm-nm \
-                OBJCOPY=llvm-objcopy \
-                OBJDUMP=llvm-objdump \
-                STRIP=llvm-strip
-}
+if ! [[ $parse_branch = android-3.18 ]]; then
+    tg_build() {
+     export LD_LIBRARY_PATH=$(pwd)/GF/bin/../lib:$PATH
+       PATH=$(pwd)/GF/bin:$PATH \
+        make -j$(nproc) O=out \
+                        ARCH=arm64 \
+                        AR=llvm-ar \
+                        CC=clang \
+                        CROSS_COMPILE=aarch64-linux-gnu- \
+                        CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+                        NM=llvm-nm \
+                        OBJCOPY=llvm-objcopy \
+                        OBJDUMP=llvm-objdump \
+                        STRIP=llvm-strip
+    }
+else
+    tg_build() {
+     PATH=$(pwd)/gcc/bin:$PATH \
+      make -j$(nproc) O=out \
+                      ARCH=arm64 \
+                      CROSS_COMPILE=aarch64-linux-android-
+    }
+fi
 build_start=$(date +"%s")
 date1=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
 make ARCH=arm64 O=out "$config_device1" && \
