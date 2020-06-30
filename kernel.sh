@@ -3,7 +3,7 @@
 # Copyright (C) 2019, 2020, Raphielscape LLC (@raphielscape)
 # Copyright (C) 2019, 2020, Dicky Herlambang (@Nicklas373)
 # Copyright (C) 2020, Muhammad Fadlyas (@fadlyas07)
-git clone --depth=1 https://github.com/fadlyas07/anykernel-3
+git clone --depth=1 https://github.com/anggialansori404/anykernel-3
 git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master GF
 git clone --depth=1 https://github.com/fabianonline/telegram.sh telegram
 mkdir $(pwd)/temp
