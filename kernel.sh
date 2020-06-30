@@ -21,7 +21,7 @@ export kernel_img=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 export TELEGRAM_ID=$chat_id
 tg_sendstick() {
    curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendSticker" \
-	-d sticker="CAACAgUAAxkBAAEYl9pee0jBz-DdWSsy7Rik8lwWE6LARwACmQEAAn1Cwy4FwzpKLPPhXRgE" \
+	-d sticker="CAACAgUAAx0CS4p2tAACAUNe-yNggJ4EEV-rwHK7NJ2ot-7ZQAAC9AADwZuBCDz6W81nGewzGgQ" \
 	-d chat_id="$TELEGRAM_ID"
 }
 tg_channelcast() {
