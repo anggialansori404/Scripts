@@ -4,7 +4,7 @@
 # Copyright (C) 2019, 2020, Dicky Herlambang (@Nicklas373)
 # Copyright (C) 2020, Muhammad Fadlyas (@fadlyas07)
 git clone --depth=1 https://github.com/fadlyas07/anykernel-3
-git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master GF
+git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master FIRE
 git clone --depth=1 https://github.com/fabianonline/telegram.sh telegram
 mkdir $(pwd)/temp
 export parse_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -14,7 +14,7 @@ export ARCH=arm64
 export TEMP=$(pwd)/temp
 export TELEGRAM_TOKEN=$token
 export pack=$(pwd)/anykernel-3
-export product_name=Fire火
+export product_name=-Fire🔥HMP
 export KBUILD_BUILD_USER=knzt33
 export KBUILD_BUILD_HOST=WarBoss
 export kernel_img=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
