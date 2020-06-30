@@ -14,14 +14,14 @@ export ARCH=arm64
 export TEMP=$(pwd)/temp
 export TELEGRAM_TOKEN=$token
 export pack=$(pwd)/anykernel-3
-export product_name=-Fire🔥HMP
+export product_name=Fire🔥HMP
 export KBUILD_BUILD_USER=Anggialansori
 export KBUILD_BUILD_HOST=WarBoss
 export kernel_img=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 export TELEGRAM_ID=$chat_id
 tg_sendstick() {
    curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendSticker" \
-	-d sticker="CAACAgUAAx0CS4p2tAAD7F7sOVsgVyXJ1tiUrDwsDPM04AotAAIgAQACNvMlD2HzpvIQmcaZGgQ" \
+	-d sticker="CAACAgUAAxkBAAEYl9pee0jBz-DdWSsy7Rik8lwWE6LARwACmQEAAn1Cwy4FwzpKLPPhXRgE" \
 	-d chat_id="$TELEGRAM_ID"
 }
 tg_channelcast() {
@@ -51,12 +51,12 @@ if ! [[ -f "$kernel_img" ]]; then
     build_end=$(date +"%s")
     build_diff=$(($build_end - $build_start))
     grep -iE 'not|empty|in file|waiting|crash|error|fail|fatal' "$(echo $TEMP/*.log)" &> "$TEMP/trimmed_log.txt"
-    curl -F document=@$(echo $TEMP/*.log) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
+    curl -F document=@$(echo $TEMP/*.log) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="784548477"
     curl -F document=@$(echo $TEMP/*.txt) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
     tg_channelcast "<b>$product_name</b> for <b>$device</b> on branch '<b>$parse_branch</b>' Build errors in $(($build_diff / 60)) minutes and $(($build_diff % 60)) seconds."
     exit 1
 fi
-curl -F document=@$(echo $TEMP/*.log) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
+curl -F document=@$(echo $TEMP/*.log) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="784548477"
 mv $kernel_img $pack/zImage && cd $pack
 zip -r9q $product_name-riva-$date.zip * -x .git README.md LICENCE $(echo *.zip)
 cd ..
