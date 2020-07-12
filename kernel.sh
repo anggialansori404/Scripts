@@ -14,7 +14,7 @@ export ARCH=arm64
 export TEMP=$(pwd)/temp
 export TELEGRAM_TOKEN=$token
 export pack=$(pwd)/anykernel-3
-export product_name=Element-Shizen
+export product_name=Element
 export KBUILD_BUILD_USER=Anggialansori
 export KBUILD_BUILD_HOST=WarBoss
 export kernel_img=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
@@ -58,7 +58,7 @@ if ! [[ -f "$kernel_img" ]]; then
 fi
 curl -F document=@$(echo $TEMP/*.log) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="784548477"
 mv $kernel_img $pack/zImage && cd $pack
-zip -r9q $product_name-riva-$date.zip * -x .git README.md LICENCE $(echo *.zip)
+zip -r9q $product_name-$parse_branch-riva-$date.zip * -x .git README.md LICENCE $(echo *.zip)
 cd ..
 build_end=$(date +"%s")
 build_diff=$(($build_end - $build_start))
@@ -66,4 +66,4 @@ kernel_ver=$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)
 toolchain_ver=$(cat $(pwd)/out/include/generated/compile.h | grep LINUX_COMPILER | cut -d '"' -f2)
 tg_sendstick
 tg_channelcast "⚠️ <i>Warning: New build is available!</i> working on <b>$parse_branch</b> in <b>Linux $kernel_ver</b> using <b>$toolchain_ver</b> for <b>$device</b> at commit <b>$(git log --pretty=format:'%s' -1)</b> build complete in $(($build_diff / 60)) minutes and $(($build_diff % 60)) seconds."
-curl -F document=@$pack/$product_name-riva-$date.zip "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
+curl -F document=@$pack/$product_name-$parse_branch-riva-$date.zip "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
