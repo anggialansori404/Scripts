@@ -4,7 +4,8 @@
 # Copyright (C) 2019, 2020, Dicky Herlambang (@Nicklas373)
 # Copyright (C) 2020, Muhammad Fadlyas (@fadlyas07)
 git clone --depth=1 https://github.com/anggialansori404/anykernel-3
-git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master GF
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r49 gcc
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r49 gcc32
 git clone --depth=1 https://github.com/fabianonline/telegram.sh telegram
 mkdir $(pwd)/temp
 export parse_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -34,19 +35,12 @@ tg_channelcast() {
 build_start=$(date +"%s")
 date=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
 make ARCH=arm64 O=out "$config_device" && \
-export LD_LIBRARY_PATH=$(pwd)/GF/bin/../lib:$PATH
-PATH=$(pwd)/GF/bin:$PATH \
+PATH=$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH \
 make -j$(nproc) O=out \
                     ARCH=arm64 \
-                    AR=llvm-ar \
-                    CC=clang \
-                    CROSS_COMPILE=aarch64-linux-gnu- \
-                    CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-                    NM=llvm-nm \
-                    OBJCOPY=llvm-objcopy \
-                    OBJDUMP=llvm-objdump \
-                    STRIP=llvm-strip 2>&1| tee Log-$(TZ=Asia/Jakarta date +'%d%m%y').log
-mv *.log $TEMP
+                    CROSS_COMPILE=aarch64-linux-android- \
+                    CROSS_COMPILE_ARM32=arm-linux-androideabi- 
+              
 if ! [[ -f "$kernel_img" ]]; then
     build_end=$(date +"%s")
     build_diff=$(($build_end - $build_start))
