@@ -39,8 +39,8 @@ PATH=$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH \
 make -j$(nproc) O=out \
                     ARCH=arm64 \
                     CROSS_COMPILE=aarch64-linux-android- \
-                    CROSS_COMPILE_ARM32=arm-linux-androideabi- 
-              
+                    CROSS_COMPILE_ARM32=arm-linux-androideabi- 2>&1| tee Log-$(TZ=Asia/Jakarta date +'%d%m%y').log
+mv *.log $TEMP          
 if ! [[ -f "$kernel_img" ]]; then
     build_end=$(date +"%s")
     build_diff=$(($build_end - $build_start))
