@@ -4,7 +4,7 @@
 # Copyright (C) 2019, 2020, Dicky Herlambang (@Nicklas373)
 # Copyright (C) 2020, Muhammad Fadlyas (@fadlyas07)
 git clone --depth=1 https://github.com/anggialansori404/anykernel-3
-git clone --depth=1 https://github.com/fadlyas07/clang-11.0.0 -b master GF
+git clone --depth=1 https://github.com/kdrag0n/proton-clang -b master Element
 git clone --depth=1 https://github.com/fabianonline/telegram.sh telegram
 mkdir $(pwd)/temp
 export parse_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -34,8 +34,8 @@ tg_channelcast() {
 build_start=$(date +"%s")
 date=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
 make ARCH=arm64 O=out "$config_device" && \
-export LD_LIBRARY_PATH=$(pwd)/GF/bin/../lib:$PATH
-PATH=$(pwd)/GF/bin:$PATH \
+export LD_LIBRARY_PATH=$(pwd)/Element/bin/../lib:$PATH
+PATH=$(pwd)/Element/bin:$PATH \
 make -j$(nproc) O=out \
                     ARCH=arm64 \
                     AR=llvm-ar \
